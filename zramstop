@@ -1,14 +1,14 @@
 #!/bin/bash
 
 # get the number of CPUs
-num_cpus=`grep -c processor /proc/cpuinfo`
+num_cpus=$(grep -c processor /proc/cpuinfo)
 
 # set decremented number of CPUs
-decr_num_cpus=`expr $num_cpus - 1`
+decr_num_cpus=$((num_cpus - 1))
 
 # Switching off swap
-for i in `seq 0 $decr_num_cpus`; do
-if [ "`grep /dev/zram$i /proc/swaps`" != "" ]; then
+for i in $(seq 0 $decr_num_cpus); do
+if [ "$(grep /dev/zram$i /proc/swaps)" != "" ]; then
 swapoff /dev/zram$i
 sleep 1
 fi
