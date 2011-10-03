@@ -1,0 +1,43 @@
+zram for Fedora
+===============
+
+zram compresses swap partitions into RAM for performance.
+
+There are 3 files you need to enable zram for Fedora. They
+are:
+
+	- zramstart
+	- zramstop
+	- zram.service
+
+All these files can be found in the project folder.
+
+Place "zramstart" and "zramstop" in the following folder.
+
+	/usr/bin
+
+Place "zram.service" in the following folder.
+
+	/etc/systemd/system
+
+As root, run the following command to enable zram for
+Fedora.
+
+	systemctl daemon-reload
+	systemctl enable zram.service
+	systemctl start zram.service
+
+Run the following command to make the service started
+properly.
+
+	systemctl status zram.service
+
+Your output should look like this.
+
+zram.service - Enable compressed swap in memory using zram
+		Loaded: loaded (/etc/systemd/system/zram.service; enabled)
+		Active: active (exited) since Sun, 02 Oct 2011 22:46:31 -0400; 44min ago
+		Process: 942 ExecStart=/usr/bin/zramstart (code=exited, status=0/SUCCESS)
+		CGroup: name=systemd:/system/zram.service
+
+That's it!
