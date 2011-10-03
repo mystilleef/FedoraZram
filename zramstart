@@ -1,29 +1,31 @@
 #!/bin/bash
 
 # get the number of CPUs
-num_cpus=`grep -c processor /proc/cpuinfo`
+num_cpus=$(grep -c processor /proc/cpuinfo)
+# if something goes wrong, assume we have 1
+[ "$num_cpus" != 0 ] || num_cpus=1
 
 # set decremented number of CPUs
-decr_num_cpus=`expr $num_cpus - 1`
+decr_num_cpus=$((num_cpus - 1))
 
 # get the amount of memory in the machine
-mem_total_kb=`grep MemTotal /proc/meminfo | grep -E --only-matching '[[:digit:]]+'`
-mem_total=`expr $mem_total_kb \* 1024`
+mem_total_kb=$(grep MemTotal /proc/meminfo | grep -E --only-matching '[[:digit:]]+')
+mem_total=$((mem_total_kb * 1024))
 
 # load dependency modules
 modprobe zram num_devices=$num_cpus
 
 # initialize the devices
-for i in `seq 0 $decr_num_cpus`; do
-echo `expr $mem_total / $num_cpus` > /sys/block/zram$i/disksize
+for i in $(seq 0 $decr_num_cpus); do
+echo $((mem_total / num_cpus)) > /sys/block/zram$i/disksize
 done
 
 # Creating swap filesystems
-for i in `seq 0 $decr_num_cpus`; do
+for i in $(seq 0 $decr_num_cpus); do
 mkswap /dev/zram$i
 done
 
 # Switch the swaps on
-for i in `seq 0 $decr_num_cpus`; do
+for i in $(seq 0 $decr_num_cpus); do
 swapon -p 100 /dev/zram$i
 done
