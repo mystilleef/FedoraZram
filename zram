@@ -1,0 +1,4 @@
+# The factor is how much (from 0 to 100, percentage)
+# of system RAM to allocate to ZRAM block devices
+# Too big, and your system will start killing off processes
+FACTOR=90
