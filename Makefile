@@ -1,5 +1,6 @@
-PREFIX ?= /usr
-SYSTEMD_UNITDIR ?= /lib/systemd/system/
+PREFIX ?= /usr/local
+SYSTEMD_UNITDIR ?= /etc/systemd/system
+DEFAULTDIR ?= /etc/default
 
 install:
 	install -d $(DESTDIR)$(PREFIX)/sbin
@@ -8,4 +9,5 @@ install:
 
 	install -d $(DESTDIR)$(SYSTEMD_UNITDIR)
 	install -m 0644 zram.service $(DESTDIR)$(SYSTEMD_UNITDIR)
+	install -m 0644 zram $(DESTDIR)$(DEFAULTDIR)
 
