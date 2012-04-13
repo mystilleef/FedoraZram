@@ -6,6 +6,17 @@ zram compresses swap partitions into RAM for performance.
 You need Linux kernel version 2.6.37.1 or better to use 
 zram.
 
+Automated Install
+-----------------
+
+	sudo make install
+	sudo systemctl daemon-reload
+	systemctl enable zram.service
+	systemctl start zram.service
+
+Manual Install
+--------------
+
 There are 3 files you need to enable zram for Fedora. They
 are:
 
@@ -17,7 +28,7 @@ All these files can be found in the project folder.
 
 Place "zramstart" and "zramstop" in the following folder.
 
-	/usr/bin
+	/usr/sbin
 
 Place "zram.service" in the following folder.
 
