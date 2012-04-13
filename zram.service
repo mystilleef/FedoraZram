@@ -4,8 +4,8 @@ After=multi-user.target
 
 [Service]
 RemainAfterExit=yes
-ExecStart=/usr/bin/zramstart
-ExecStop=/usr/bin/zramstop
+ExecStart=/usr/local/sbin/zramstart
+ExecStop=/usr/local/sbin/zramstop
 Type=oneshot
 
 [Install]
