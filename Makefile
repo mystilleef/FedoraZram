@@ -9,5 +9,7 @@ install:
 
 	install -d $(DESTDIR)$(SYSTEMD_UNITDIR)
 	install -m 0644 zram.service $(DESTDIR)$(SYSTEMD_UNITDIR)
+
+	install -d $(DESTDIR)$(DEFAULTDIR)
 	install -m 0644 zram $(DESTDIR)$(DEFAULTDIR)
 
