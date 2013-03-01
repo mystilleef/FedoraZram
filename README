@@ -1,71 +1,66 @@
-zram for Fedora
-===============
+# zram for Fedora
 
 zram compresses swap partitions into RAM for performance.
 
 You need Linux kernel version 2.6.37.1 or better to use 
 zram.
 
-Automated Install
------------------
+### Automated Install
 
-	sudo make install
-	sudo systemctl daemon-reload
-	systemctl enable zram.service
-	systemctl start zram.service
+    sudo make install
+    sudo systemctl daemon-reload
+    systemctl enable zram.service
+    systemctl start zram.service
 
-Manual Install
---------------
+### Manual Install
 
 There are 3 files you need to enable zram for Fedora. They
 are:
 
-	- zramstart
-	- zramstop
-	- zram.service
+* zramstart
+* zramstop
+* zram.service
 
 All these files can be found in the project folder.
 
-Place "zramstart" and "zramstop" in the following folder.
+Place __"zramstart"__ and __"zramstop"__ in the following folder.
 
-	/usr/local/sbin
+    __/usr/local/sbin__
 
-Place "zram.service" in the following folder.
+Place __"zram.service"__ in the following folder.
 
-	/etc/systemd/system
+    __/etc/systemd/system__
 
-Place "zram" in the following folder.
+Place __"zram"__ in the following folder.
 
-	/etc/default
+    __/etc/default__
 
-As root, run the following command to enable zram for
-Fedora.
+As root, run the following command to enable __zram__ for __Fedora__.
 
-	systemctl daemon-reload
-	systemctl enable zram.service
-	systemctl start zram.service
+    systemctl daemon-reload
+    systemctl enable zram.service
+    systemctl start zram.service
 
-Run the following command to make sure the service started
-properly.
+Run the following command to make sure the service started properly.
 
-	systemctl status zram.service
+    systemctl status zram.service
 
 The output should look like this.
 
-zram.service - Enable compressed swap in memory using zram
-		Loaded: loaded (/etc/systemd/system/zram.service; enabled)
-		Active: active (exited) since Sun, 02 Oct 2011 22:46:31 -0400; 44min ago
-		Process: 942 ExecStart=/usr/local/sbin/zramstart (code=exited, status=0/SUCCESS)
-		CGroup: name=systemd:/system/zram.service
+    zram.service - Enable compressed swap in memory using zram
+        Loaded: loaded (/etc/systemd/system/zram.service; enabled)
+        Active: active (exited) since Sun, 02 Oct 2011 22:46:31 -0400; 44min ago
+        Process: 942 ExecStart=/usr/local/sbin/zramstart (code=exited, status=0/SUCCESS)
+        CGroup: name=systemd:/system/zram.service
 
 That's it!
 
-Credits:
+### Credits:
 
-The zramstart and zramstop scripts were written by Sergey
-Davidoff of Elementary OS.
+The zramstart and zramstop scripts were written by __Sergey
+Davidoff__ of Elementary OS.
 
-References:
+### References:
 
 http://www.webupd8.org/2011/10/increased-performance-in-linux-with.html
 http://code.google.com/p/compcache
