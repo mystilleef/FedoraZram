@@ -1,9 +1,9 @@
 # zram for Fedora
 
-zram compresses swap partitions into RAM for performance.
+__zram__ compresses swap partitions into RAM for performance.
 
 You need Linux kernel version 2.6.37.1 or better to use 
-zram.
+__zram__.
 
 ### Automated Install
 
@@ -14,12 +14,12 @@ zram.
 
 ### Manual Install
 
-There are 3 files you need to enable zram for Fedora. They
+There are 3 files you need to enable __zram__ for __Fedora__. They
 are:
 
-* zramstart
-* zramstop
-* zram.service
+* __zramstart__
+* __zramstop__
+* __zram.service__
 
 All these files can be found in the project folder.
 
@@ -57,7 +57,7 @@ That's it!
 
 ### Credits:
 
-The zramstart and zramstop scripts were written by __Sergey
+The __zramstart__ and __zramstop__ scripts were written by __Sergey
 Davidoff__ of Elementary OS.
 
 ### References:
