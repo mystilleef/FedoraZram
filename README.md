@@ -62,6 +62,6 @@ Davidoff__ of Elementary OS.
 
 ### References:
 
-http://www.webupd8.org/2011/10/increased-performance-in-linux-with.html
-http://code.google.com/p/compcache
-http://weirdfellow.wordpress.com/2011/05/04/compressed-ram-with-zram/
+* http://www.webupd8.org/2011/10/increased-performance-in-linux-with.html
+* http://code.google.com/p/compcache
+* http://weirdfellow.wordpress.com/2011/05/04/compressed-ram-with-zram/
