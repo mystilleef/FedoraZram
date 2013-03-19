@@ -29,7 +29,7 @@ Place __"zramstart"__ and __"zramstop"__ in the following folder.
 
 Place __"zram.service"__ in the following folder.
 
-    __/etc/systemd/system__
+    __/lib/systemd/system__
 
 Place __"zram"__ in the following folder.
 
@@ -48,7 +48,7 @@ Run the following command to make sure the service started properly.
 The output should look like this.
 
     zram.service - Enable compressed swap in memory using zram
-        Loaded: loaded (/etc/systemd/system/zram.service; enabled)
+        Loaded: loaded (/lib/systemd/system/zram.service; enabled)
         Active: active (exited) since Sun, 02 Oct 2011 22:46:31 -0400; 44min ago
         Process: 942 ExecStart=/usr/sbin/zramstart (code=exited, status=0/SUCCESS)
         CGroup: name=systemd:/system/zram.service

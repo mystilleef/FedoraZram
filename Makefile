@@ -1,5 +1,5 @@
 PREFIX ?= /usr
-SYSTEMD_UNITDIR ?= /etc/systemd/system
+SYSTEMD_UNITDIR ?= /lib/systemd/system
 SYSCONFDIR ?= /etc/sysconfing
 
 install:
