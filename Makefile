@@ -1,15 +1,32 @@
-PREFIX ?= /usr/local
-SYSTEMD_UNITDIR ?= /etc/systemd/system
-DEFAULTDIR ?= /etc/default
+PREFIX ?= /usr
+SYSTEMD_UNITDIR ?= /lib/systemd/system
+SYSCONFDIR ?= /etc/sysconfig
+VERSION=1.0.0
+SRC_FILES=Makefile README.md zram zram.service zram.spec zramstart zramstat zramstop
 
 install:
 	install -d $(DESTDIR)$(PREFIX)/sbin
 	install -m 0755 zramstart $(DESTDIR)$(PREFIX)/sbin
 	install -m 0755 zramstop $(DESTDIR)$(PREFIX)/sbin
+	install -m 0755 zramstat $(DESTDIR)$(PREFIX)/sbin
 
 	install -d $(DESTDIR)$(SYSTEMD_UNITDIR)
 	install -m 0644 zram.service $(DESTDIR)$(SYSTEMD_UNITDIR)
 
-	install -d $(DESTDIR)$(DEFAULTDIR)
-	install -m 0644 zram $(DESTDIR)$(DEFAULTDIR)
+	install -d $(DESTDIR)$(SYSCONFDIR)
+	install -m 0644 zram $(DESTDIR)$(SYSCONFDIR)
 
+.PHONY: clean
+clean:
+	rm -rf zram-$(VERSION) zram-$(VERSION).tar.bz2
+
+.PHONY: tarball
+tarball: clean
+	mkdir zram-$(VERSION)
+	cp -a $(SRC_FILES) zram-$(VERSION)/
+	tar -cjvf zram-$(VERSION).tar.bz2 zram-$(VERSION)/
+	rm -rf zram-$(VERSION)
+
+.PHONY: rpm
+rpm: tarball
+	rpmbuild -tb zram-$(VERSION).tar.bz2

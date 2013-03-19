@@ -1,13 +1,10 @@
 #!/bin/sh
 
-num_cpus=$(grep -c processor /proc/cpuinfo)
-[ "$num_cpus" != 0 ] || num_cpus=1
-
-last_cpu=$((num_cpus - 1))
-
-for i in $(seq 0 $last_cpu); do
-	grep -q "/dev/zram$i" /proc/swaps && swapoff /dev/zram$i
+for i in $(grep '^/dev/zram' /proc/swaps | awk '{ print $1 }'); do
+	swapoff "$i"
 done
 
-sleep 1
-rmmod zram
+if grep -q "^zram " /proc/modules; then
+	sleep 1
+	rmmod zram
+fi
