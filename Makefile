@@ -1,6 +1,6 @@
-PREFIX ?= /usr/local
+PREFIX ?= /usr
 SYSTEMD_UNITDIR ?= /etc/systemd/system
-DEFAULTDIR ?= /etc/default
+SYSCONFDIR ?= /etc/sysconfing
 
 install:
 	install -d $(DESTDIR)$(PREFIX)/sbin
@@ -10,6 +10,6 @@ install:
 	install -d $(DESTDIR)$(SYSTEMD_UNITDIR)
 	install -m 0644 zram.service $(DESTDIR)$(SYSTEMD_UNITDIR)
 
-	install -d $(DESTDIR)$(DEFAULTDIR)
-	install -m 0644 zram $(DESTDIR)$(DEFAULTDIR)
+	install -d $(DESTDIR)$(SYSCONFDIR)
+	install -m 0644 zram $(DESTDIR)$(SYSCONFDIR)
 

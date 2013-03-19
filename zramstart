@@ -5,7 +5,7 @@ num_cpus=$(grep -c processor /proc/cpuinfo)
 
 last_cpu=$((num_cpus - 1))
 FACTOR=90
-[ -f /etc/default/zram ] && source /etc/default/zram || true
+[ -f /etc/sysconfig/zram ] && source /etc/sysconfig/zram || true
 factor=$FACTOR # percentage
 
 memtotal=$(grep MemTotal /proc/meminfo | awk ' { print $2 } ')

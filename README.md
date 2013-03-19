@@ -25,7 +25,7 @@ All these files can be found in the project folder.
 
 Place __"zramstart"__ and __"zramstop"__ in the following folder.
 
-    __/usr/local/sbin__
+    __/usr/sbin__
 
 Place __"zram.service"__ in the following folder.
 
@@ -33,7 +33,7 @@ Place __"zram.service"__ in the following folder.
 
 Place __"zram"__ in the following folder.
 
-    __/etc/default__
+    __/etc/sysconfig__
 
 As root, run the following command to enable __zram__ for __Fedora__.
 
@@ -50,7 +50,7 @@ The output should look like this.
     zram.service - Enable compressed swap in memory using zram
         Loaded: loaded (/etc/systemd/system/zram.service; enabled)
         Active: active (exited) since Sun, 02 Oct 2011 22:46:31 -0400; 44min ago
-        Process: 942 ExecStart=/usr/local/sbin/zramstart (code=exited, status=0/SUCCESS)
+        Process: 942 ExecStart=/usr/sbin/zramstart (code=exited, status=0/SUCCESS)
         CGroup: name=systemd:/system/zram.service
 
 That's it!
