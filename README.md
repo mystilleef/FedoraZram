@@ -17,8 +17,6 @@ First you have to setup your rpm build environment. For details see
     # the real thing(tm)
     make rpm
     sudo rpm -Uhv ~/rpmbuild/RPMS/noarch/zram-*.noarch.rpm
-    sudo systemctl enable zram.service
-    sudo systemctl start zram.service
 
 ### Manual Install
 
