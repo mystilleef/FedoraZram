@@ -4,7 +4,7 @@ num_cpus=$(grep -c processor /proc/cpuinfo)
 [ "$num_cpus" != 0 ] || num_cpus=1
 
 last_cpu=$((num_cpus - 1))
-FACTOR=90
+FACTOR=33
 [ -f /etc/sysconfig/zram ] && source /etc/sysconfig/zram || true
 factor=$FACTOR # percentage
 
