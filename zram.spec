@@ -1,8 +1,8 @@
 Summary: Enable compressed swap in memory
 Name: zram
 Version: 1.0.0
-Release: 0%{?dist}
-License: GPLv2 
+Release: 1%{?dist}
+License: GPLv2
 Group: System Environment/Daemons
 Epoch: 0
 URL: http://code.google.com/p/compcache/
@@ -25,7 +25,7 @@ You need Linux kernel version 2.6.37.1 or better to use zram.
 
 
 %prep
-%setup -q  
+%setup -q
 
 
 %build
@@ -35,6 +35,7 @@ true
 %install
 mkdir -p $RPM_BUILD_ROOT%{_sysconfdir}/sysconfig
 mkdir -p $RPM_BUILD_ROOT%{_unitdir}
+ln -s $RPM_BUILD_ROOT/usr/lib $RPM_BUILD_ROOT/lib
 mkdir -p $RPM_BUILD_ROOT%{_sbindir}
 %makeinstall DESTDIR=$RPM_BUILD_ROOT
 
@@ -69,8 +70,12 @@ fi
 %{_sbindir}/zramstart
 %{_sbindir}/zramstop
 %{_sbindir}/zramstat
+%exclude /lib
 
 
 %changelog
+* Mon Sep 02 2013 Doncho Gunchev <dgunchev@gmail.com> - 0:1.0.0-1
+- Add Darren Steven's build fix for fedora 18
+
 * Tue Mar 19 2013 Doncho Gunchev <dgunchev@gmail.com> - 0:1.0.0-0
 - Initial package
