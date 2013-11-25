@@ -1,7 +1,7 @@
 Summary: Enable compressed swap in memory
 Name: zram
 Version: 1.0.0
-Release: 1%{?dist}
+Release: 2%{?dist}
 License: GPLv2
 Group: System Environment/Daemons
 Epoch: 0
@@ -15,8 +15,12 @@ Requires(post): systemd-units
 Requires(preun): systemd-units
 Requires(postun): systemd-units
 Requires: filesystem >= 2.0.1, initscripts, bc > 1.0
+Requires: kmod-staging
 # No debug info for bare scripts, right?
 %define debug_package %{nil}
+# http://fedoraproject.org/wiki/Changes/UnversionedDocdirs
+%{!?_pkgdocdir: %global _pkgdocdir %{_docdir}/%{name}-%{version}}
+%global _docdir_fmt %{name}
 
 %description
 zram compresses swap partitions into RAM for performance.
@@ -74,6 +78,11 @@ fi
 
 
 %changelog
+* Mon Nov 25 2013 Doncho Gunchev <dgunchev@gmail.com> - 0:1.0.0-2
+- http://fedoraproject.org/wiki/Changes/UnversionedDocdirs
+- Added kmod-staging dependency
+- Test on Fedora 19
+
 * Mon Sep 02 2013 Doncho Gunchev <dgunchev@gmail.com> - 0:1.0.0-1
 - Add Darren Steven's build fix for fedora 18
 
