@@ -31,19 +31,19 @@ are:
 * __zramstop__
 * __zram.service__
 
-All these files can be found in the project folder.
+All these files can be found in the project directory.
 
-Place __"zramstart"__, __zramstat__ and __"zramstop"__ in the following folder.
+Place __"zramstart"__, __zramstat__ and __"zramstop"__ in the following directory.
 
-    __/usr/sbin__
+    /usr/sbin/
 
-Place __"zram.service"__ in the following folder.
+Place __"zram.service"__ in the following directory.
 
-    __/lib/systemd/system__
+    /lib/systemd/system
 
-Place __"zram"__ in the following folder.
+Place __"zram"__ in the following directory.
 
-    __/etc/sysconfig__
+    /etc/sysconfig
 
 As root, run the following command to enable __zram__ for __Fedora__.
 
