@@ -30,3 +30,7 @@ tarball: clean
 .PHONY: rpm
 rpm: tarball
 	rpmbuild -tb zram-$(VERSION).tar.bz2
+
+.PHONY: srpm
+srpm: tarball
+	rpmbuild -ts zram-$(VERSION).tar.bz2
