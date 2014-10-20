@@ -1,5 +1,5 @@
 PREFIX ?= /usr
-SYSTEMD_UNITDIR ?= /lib/systemd/system
+SYSTEMD_UNITDIR ?= $(PREFIX)/lib/systemd/system
 SYSCONFDIR ?= /etc/sysconfig
 VERSION=1.0.0
 SRC_FILES=Makefile README.md zram zram.service zram.spec zramstart zramstat zramstop
@@ -30,3 +30,7 @@ tarball: clean
 .PHONY: rpm
 rpm: tarball
 	rpmbuild -tb zram-$(VERSION).tar.bz2
+
+.PHONY: srpm
+srpm: tarball
+	rpmbuild -ts zram-$(VERSION).tar.bz2
