@@ -1,22 +1,17 @@
 Summary: Enable compressed swap in memory
 Name: zram
 Version: 1.0.0
-Release: 0%{?dist}
+Release: 1%{?dist}
 License: GPLv2 
 Group: System Environment/Daemons
-Epoch: 0
-URL: http://code.google.com/p/compcache/
-Source: %{name}-%{version}.tar.bz2
+Source0: %{name}-%{version}.tar.bz2
 BuildArch: noarch
 
-BuildRequires: systemd-units
-Requires(post): systemd-sysv
-Requires(post): systemd-units
-Requires(preun): systemd-units
-Requires(postun): systemd-units
-Requires: filesystem >= 2.0.1, initscripts, bc > 1.0
-# No debug info for bare scripts, right?
-%define debug_package %{nil}
+BuildRequires: systemd
+Requires(post): systemd
+Requires(preun): systemd
+Requires(postun): systemd
+Requires: bc > 1.0
 
 %description
 zram compresses swap partitions into RAM for performance.
@@ -29,7 +24,6 @@ You need Linux kernel version 2.6.37.1 or better to use zram.
 
 
 %build
-true
 
 
 %install
@@ -40,27 +34,13 @@ mkdir -p $RPM_BUILD_ROOT%{_sbindir}
 
 
 %post
-if [ $1 -eq 1 ] ; then 
-    # Initial installation
-    /bin/systemctl enable zram.service >/dev/null 2>&1 || :
-fi
-
+%systemd_post zram.service
 
 %preun
-if [ $1 -eq 0 ] ; then
-    # Package removal, not upgrade
-    /bin/systemctl --no-reload disable zram.service > /dev/null 2>&1 || :
-    /bin/systemctl stop zram.service > /dev/null 2>&1 || :
-fi
-
+%systemd_preun zram.service
 
 %postun
-/bin/systemctl daemon-reload >/dev/null 2>&1 || :
-if [ $1 -ge 1 ] ; then
-    # Package upgrade, not uninstall
-    /bin/systemctl try-restart zram.service >/dev/null 2>&1 || :
-fi
-
+%systemd_postun_with_restart zram.service
 
 %files
 %doc README.md
@@ -72,5 +52,8 @@ fi
 
 
 %changelog
-* Tue Mar 19 2013 Doncho Gunchev <dgunchev@gmail.com> - 0:1.0.0-0
+* Tue Nov 25 2014 Juan Orti <jorti@fedoraproject.org> - 1.0.0-1
+- Spec file cleanup
+
+* Tue Mar 19 2013 Doncho Gunchev <dgunchev@gmail.com> - 1.0.0-0
 - Initial package
