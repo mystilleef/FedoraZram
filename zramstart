@@ -14,6 +14,8 @@ mem_by_cpu=$(($memtotal/$num_cpus*$factor/100*1024))
 modprobe -q zram num_devices=$num_cpus
 
 for i in $(seq 0 $last_cpu); do
+	#enable lz4 if that supported
+	grep -q lz4 /sys/block/zram$i/comp_algorithm && echo lz4 > /sys/block/zram$i/comp_algorithm
 	echo $mem_by_cpu > /sys/block/zram$i/disksize
 	mkswap /dev/zram$i
 	swapon -p 100 /dev/zram$i
