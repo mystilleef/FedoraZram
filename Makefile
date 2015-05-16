@@ -2,7 +2,7 @@ PREFIX ?= /usr
 SYSTEMD_UNITDIR ?= $(PREFIX)/lib/systemd/system
 SYSCONFDIR ?= /etc/sysconfig
 VERSION=1.0.0
-SRC_FILES=Makefile README.md zram zram.service zram.spec zramstart zramstat zramstop
+SRC_FILES=Makefile README.md zram mkzram.service zram.spec zramstart zramstat zramstop
 
 install:
 	install -d $(DESTDIR)$(PREFIX)/sbin
@@ -11,7 +11,7 @@ install:
 	install -m 0755 zramstat $(DESTDIR)$(PREFIX)/sbin
 
 	install -d $(DESTDIR)$(SYSTEMD_UNITDIR)
-	install -m 0644 zram.service $(DESTDIR)$(SYSTEMD_UNITDIR)
+	install -m 0644 mkzram.service $(DESTDIR)$(SYSTEMD_UNITDIR)
 
 	install -d $(DESTDIR)$(SYSCONFDIR)
 	install -m 0644 zram $(DESTDIR)$(SYSCONFDIR)

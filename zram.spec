@@ -13,7 +13,6 @@ Requires(post): systemd-units
 Requires(preun): systemd-units
 Requires(postun): systemd-units
 Requires: filesystem >= 2.0.1, initscripts, bc > 1.0
-Requires: kmod-staging
 # No debug info for bare scripts, right?
 %define debug_package %{nil}
 # http://fedoraproject.org/wiki/Changes/UnversionedDocdirs
@@ -42,18 +41,18 @@ mkdir -p $RPM_BUILD_ROOT%{_sbindir}
 
 
 %post
-%systemd_post zram.service
+%systemd_post mkzram.service
 
 %preun
-%systemd_preun zram.service
+%systemd_preun mkzram.service
 
 %postun
-%systemd_postun_with_restart zram.service
+%systemd_postun_with_restart mkzram.service
 
 %files
 %doc README.md
 %config(noreplace) %{_sysconfdir}/sysconfig/%{name}
-%{_unitdir}/zram.service
+%{_unitdir}/mkzram.service
 %{_sbindir}/zramstart
 %{_sbindir}/zramstop
 %{_sbindir}/zramstat
