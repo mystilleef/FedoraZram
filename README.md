@@ -29,7 +29,7 @@ are:
 * __zramstart__
 * __zramstat__
 * __zramstop__
-* __zram.service__
+* __mkzram.service__
 
 All these files can be found in the project directory.
 
@@ -37,7 +37,7 @@ Place __"zramstart"__, __zramstat__ and __"zramstop"__ in the following director
 
     /usr/sbin/
 
-Place __"zram.service"__ in the following directory.
+Place __"mkzram.service"__ in the following directory.
 
     /lib/systemd/system
 
@@ -51,12 +51,12 @@ As root, run the following command to enable __zram__ for __Fedora__.
 
 ### Starting
 
-    sudo systemctl enable zram.service
-    sudo systemctl start zram.service
+    sudo systemctl enable mkzram.service
+    sudo systemctl start mkzram.service
 
 Run the following command to make sure the service started properly.
 
-    sudo systemctl status zram.service
+    sudo systemctl status mkzram.service
 
 The output should look like this:
 
