@@ -2,12 +2,31 @@
 
 ls /sys/block/zram* > /dev/null 2>&1 || exit 0
 
+sum_compr=0
+sum_orig=0
+
+while [ 1 ]; do
+
 for i in /sys/block/zram*; do
-	compr=$(< $i/compr_data_size)
-	orig=$(< $i/orig_data_size)
-	ratio=0
-	if [ $compr -gt 0 ]; then
-		ratio=$(echo "scale=2; $orig*100/$compr" | bc -q)
-	fi
-	echo -e "/dev/${i/*\/}:\t$ratio% ($orig -> $compr)"
+  compr=$(< $i/compr_data_size)
+  orig=$(< $i/orig_data_size)
+  sum_compr=$((sum_compr+compr))
+  sum_orig=$((sum_orig+orig))
+  ratio=0
+  if [ $compr -gt 0 ]; then
+    ratio=$(echo "scale=2; $orig*100/$compr" | bc -q)
+  fi
+# echo -e "/dev/${i/*\/}:\t$ratio% ($orig -> $compr)"
+done
+
+ratio=0
+if [ $sum_compr -gt 0 ]; then
+  ratio=$(echo "scale=2; $sum_orig*100/$sum_compr" | bc -q)
+fi
+sum_orig=$((sum_orig/1024/1024))
+sum_compr=$((sum_compr/1024/1024))
+diff=$((sum_orig-sum_compr))
+
+echo -ne "\t GAINED $diff MB by using $sum_compr MB\r    "
+sleep 1
 done
