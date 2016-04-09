@@ -1,6 +1,6 @@
 #!/bin/sh
 
-num_cpus=$(grep -c processor /proc/cpuinfo)
+num_cpus=$(nproc)
 [ "$num_cpus" != 0 ] || num_cpus=1
 
 last_cpu=$((num_cpus - 1))
