@@ -29,7 +29,7 @@ are:
 * __zramstart__
 * __zramstat__
 * __zramstop__
-* __zram.service__
+* __mkzram.service__
 
 All these files can be found in the project directory.
 
@@ -37,7 +37,7 @@ Place __"zramstart"__, __zramstat__ and __"zramstop"__ in the following director
 
     /usr/sbin/
 
-Place __"zram.service"__ in the following directory.
+Place __"mkzram.service"__ in the following directory.
 
     /lib/systemd/system
 
@@ -51,20 +51,20 @@ As root, run the following command to enable __zram__ for __Fedora__.
 
 ### Starting
 
-    sudo systemctl enable zram.service
-    sudo systemctl start zram.service
+    sudo systemctl enable mkzram.service
+    sudo systemctl start mkzram.service
 
 Run the following command to make sure the service started properly.
 
-    sudo systemctl status zram.service
+    sudo systemctl status mkzram.service
 
 The output should look like this:
 
-    zram.service - Enable compressed swap in memory using zram
-        Loaded: loaded (/lib/systemd/system/zram.service; enabled)
-        Active: active (exited) since Sun, 02 Oct 2011 22:46:31 -0400; 44min ago
-        Process: 942 ExecStart=/usr/sbin/zramstart (code=exited, status=0/SUCCESS)
-        CGroup: name=systemd:/system/zram.service
+    mkzram.service - Enable compressed swap in memory using zram
+        Loaded: loaded (/usr/lib/systemd/system/mkzram.service; enabled)
+        Active: active (exited) since Mon 2015-11-30 12:26:21 UTC; 2min 45s ago
+        Process: 2437 ExecStart=/usr/sbin/zramstart (code=exited, status=0/SUCCESS)
+        Main PID: 2437 (code=exited, status=0/SUCCESS)
 
 To see how well your compressed swap performs run
 
