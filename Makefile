@@ -1,7 +1,7 @@
 PREFIX ?= /usr
 SYSTEMD_UNITDIR ?= $(PREFIX)/lib/systemd/system
 SYSCONFDIR ?= /etc/sysconfig
-VERSION=1.0.1
+VERSION=1.0.2
 SRC_FILES=Makefile README.md zram mkzram.service zram.spec zramstart zramstat zramstop
 
 install:

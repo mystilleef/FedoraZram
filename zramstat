@@ -3,8 +3,8 @@
 ls /sys/block/zram* > /dev/null 2>&1 || exit 0
 
 for i in /sys/block/zram*; do
-	compr=$(< $i/compr_data_size)
-	orig=$(< $i/orig_data_size)
+	compr=$(cat $i/mm_stat | awk '{ print $2 }')
+        orig=$(cat $i/mm_stat | awk '{ print $1 }')
 	ratio=0
 	if [ $compr -gt 0 ]; then
 		ratio=$(echo "scale=2; $orig*100/$compr" | bc -q)
