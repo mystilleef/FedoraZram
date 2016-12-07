@@ -29,3 +29,6 @@ done
 # vm.swappiness=5
 # ON HDD
 # vm.swappiness=99
+
+# if you having SSD, you may try class 1 (realtime)
+# ionice -c 2 -p `pgrep kswapd0`
