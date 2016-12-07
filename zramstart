@@ -3,20 +3,32 @@
 num_cpus=$(nproc)
 [ "$num_cpus" != 0 ] || num_cpus=1
 
-last_cpu=$((num_cpus - 1))
-FACTOR=33
+threads=$((num_cpus * 4))
+last_thread=$((threads - 1))
+FACTOR=200
+
 [ -f /etc/sysconfig/zram ] && source /etc/sysconfig/zram || true
 factor=$FACTOR # percentage
 
 memtotal=$(grep MemTotal /proc/meminfo | awk ' { print $2 } ')
-mem_by_cpu=$(($memtotal/$num_cpus*$factor/100*1024))
-
-modprobe -q zram num_devices=$num_cpus
-
-for i in $(seq 0 $last_cpu); do
-	#enable lz4 if that supported
-	grep -q lz4 /sys/block/zram$i/comp_algorithm && echo lz4 > /sys/block/zram$i/comp_algorithm
-	echo $mem_by_cpu > /sys/block/zram$i/disksize
-	mkswap /dev/zram$i
-	swapon -p 100 /dev/zram$i
+mem_by_cpu=$(($memtotal/$threads*$factor/100*1024))
+modprobe -q zram num_devices=$threads
+for i in $(seq 0 $last_thread); do
+  #enable lz4 if that supported
+  grep -q lz4 /sys/block/zram$i/comp_algorithm && echo lz4 > /sys/block/zram$i/comp_algorithm
+  echo $mem_by_cpu > /sys/block/zram$i/disksize
+  mkswap /dev/zram$i
+  swapon -p 100 /dev/zram$i
 done
+
+# vm.vfs_cache_pressure=50
+# vm.dirty_ratio=30
+# vm.dirty_background_ratio=20
+
+# ON SSD
+# vm.swappiness=5
+# ON HDD
+# vm.swappiness=99
+
+# if you having SSD, you may try class 1 (realtime)
+# ionice -c 2 -p `pgrep kswapd0`
