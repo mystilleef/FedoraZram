@@ -21,7 +21,11 @@ for i in $(seq 0 $last_thread); do
   swapon -p 100 /dev/zram$i
 done
 
-echo 100 > /proc/sys/vm/swappiness
-echo 15 > /proc/sys/vm/dirty_ratio
-echo 3 > /proc/sys/vm/dirty_background_ratio
-echo 100000 > /proc/sys/vm/vfs_cache_pressure
+# vm.vfs_cache_pressure=50
+# vm.dirty_ratio=30
+# vm.dirty_background_ratio=20
+
+# ON SSD
+# vm.swappiness=5
+# ON HDD
+# vm.swappiness=99
