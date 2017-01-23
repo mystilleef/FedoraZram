@@ -1,7 +1,13 @@
 #!/bin/sh
 
-num_cpus=$(nproc)
-num_cpus=$(($num_cpus<32?$num_cpus:32))
+set -o pipefail
+set -o nounset
+set -e
+set -x
+
+num_cpus=$(grep -c processor /proc/cpuinfo)
+num_cpus=$(($num_cpus<28?$num_cpus:28))
+
 [ "$num_cpus" != 0 ] || num_cpus=1
 
 last_cpu=$((num_cpus - 1))
@@ -16,7 +22,7 @@ modprobe -q zram num_devices=$num_cpus
 
 for i in $(seq 0 $last_cpu); do
 	#enable lz4 if that supported
-	grep -q lz4 /sys/block/zram$i/comp_algorithm && echo lz4 > /sys/block/zram$i/comp_algorithm
+	[ -f /sys/block/zram$i/comp_algorithm ] && grep -q lz4 /sys/block/zram$i/comp_algorithm && echo lz4 > /sys/block/zram$i/comp_algorithm
 	echo $mem_by_cpu > /sys/block/zram$i/disksize
 	mkswap /dev/zram$i
 	swapon -p 100 /dev/zram$i

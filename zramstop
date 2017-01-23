@@ -1,5 +1,7 @@
 #!/bin/sh
 
+set -x
+
 for i in $(grep '^/dev/zram' /proc/swaps | awk '{ print $1 }'); do
 	swapoff "$i"
 done
