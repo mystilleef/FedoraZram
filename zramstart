@@ -1,6 +1,7 @@
 #!/bin/sh
 
 num_cpus=$(nproc)
+num_cpus=$(($num_cpus<32?$num_cpus:32))
 [ "$num_cpus" != 0 ] || num_cpus=1
 
 last_cpu=$((num_cpus - 1))
