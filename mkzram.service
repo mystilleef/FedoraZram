@@ -1,6 +1,5 @@
 [Unit]
 Description=Enable compressed swap in memory using zram
-After=multi-user.target
 
 [Service]
 RemainAfterExit=yes
