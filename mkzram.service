@@ -8,4 +8,4 @@ ExecStop=/usr/sbin/zramstop
 Type=oneshot
 
 [Install]
-WantedBy=swap.target
+WantedBy=multi-user.target
