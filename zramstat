@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 ls /sys/block/zram* > /dev/null 2>&1 || exit 0
 
@@ -9,5 +9,10 @@ for i in /sys/block/zram*; do
 	if [ $compr -gt 0 ]; then
 		ratio=$(echo "scale=2; $orig*100/$compr" | bc -q)
 	fi
-	echo -e "/dev/${i/*\/}:\t$ratio% ($orig -> $compr)"
+#	echo -e "/dev/${i/*\/}:\t$ratio% ($orig -> $compr)"
+	echo -n -e "/dev/${i/*\/}:\t$ratio% ("
+	echo -n $orig | sed ':a;s/\B[0-9]\{3\}\>/.&/;ta'
+	echo -n " -> "
+	echo -n $compr | sed ':a;s/\B[0-9]\{3\}\>/.&/;ta'
+	echo ")"
 done
