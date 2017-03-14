@@ -1,6 +1,6 @@
 Summary: Enable compressed swap in memory
 Name: zram
-Version: 1.0.0
+Version: 1.0.1
 Release: 2%{?dist}
 License: GPLv2
 Group: System Environment/Daemons
