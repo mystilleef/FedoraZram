@@ -1,12 +1,13 @@
 #!/bin/sh
 
+set -o pipefail
+set -o nounset
+set -e
 set -x
 
 for i in $(grep '^/dev/zram' /proc/swaps | awk '{ print $1 }'); do
-	swapoff "$i"
+	swapoff -v "$i"
+	n=$(echo $i |  sed 's/[^0-9]//g')
+	echo 1 > /sys/block/zram${n}/reset
+	echo $n > /sys/class/zram-control/hot_remove
 done
-
-if grep -q "^zram " /proc/modules; then
-	sleep 1
-	rmmod zram
-fi

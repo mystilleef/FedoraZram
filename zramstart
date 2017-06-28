@@ -5,25 +5,35 @@ set -o nounset
 set -e
 set -x
 
+FACTOR=33
+COMP_ALGORITHM=lz4
+
 num_cpus=$(grep -c processor /proc/cpuinfo)
 num_cpus=$(($num_cpus<28?$num_cpus:28))
 
 [ "$num_cpus" != 0 ] || num_cpus=1
 
+max_comp_streams=$(($num_cpus>2?2:1))
 last_cpu=$((num_cpus - 1))
-FACTOR=33
+
 [ -f /etc/sysconfig/zram ] && source /etc/sysconfig/zram || true
-factor=$FACTOR # percentage
 
 memtotal=$(grep MemTotal /proc/meminfo | awk ' { print $2 } ')
-mem_by_cpu=$(($memtotal/$num_cpus*$factor/100*1024))
+mem_by_cpu=$(($memtotal/$num_cpus*${FACTOR}/100*1024))
 
-modprobe -q zram num_devices=$num_cpus
+#modprobe -q zram num_devices=$num_cpus
+modprobe -av zram
 
 for i in $(seq 0 $last_cpu); do
+	n=$(cat /sys/class/zram-control/hot_add)
+	block=/sys/block/zram${n}
+
 	#enable lz4 if that supported
-	[ -f /sys/block/zram$i/comp_algorithm ] && grep -q lz4 /sys/block/zram$i/comp_algorithm && echo lz4 > /sys/block/zram$i/comp_algorithm
-	echo $mem_by_cpu > /sys/block/zram$i/disksize
-	mkswap /dev/zram$i
-	swapon -p 100 /dev/zram$i
+	[ -f ${block}/comp_algorithm ] && grep -q ${COMP_ALGORITHM} ${block}/comp_algorithm && echo ${COMP_ALGORITHM} > ${block}/comp_algorithm
+	
+	echo $mem_by_cpu > ${block}/disksize
+	#echo ${max_comp_streams} > ${block}/max_comp_streams
+
+	mkswap /dev/zram$n
+	swapon -v -p 100 /dev/zram$n
 done
