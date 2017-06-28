@@ -5,9 +5,19 @@ set -o nounset
 set -e
 set -x
 
+function getKernelMajorVersion() {
+        head -c 1 /proc/sys/kernel/osrelease
+}
+
 for i in $(grep '^/dev/zram' /proc/swaps | awk '{ print $1 }'); do
 	swapoff -v "$i"
 	n=$(echo $i |  sed 's/[^0-9]//g')
 	echo 1 > /sys/block/zram${n}/reset
-	echo $n > /sys/class/zram-control/hot_remove
+	if [ $(getKernelMajorVersion) -gt 3 ]; then
+		echo $n > /sys/class/zram-control/hot_remove
+	fi
 done
+
+if [ $(getKernelMajorVersion) -le 3 ]; then
+	grep zram /proc/modules && rmmod -v zram
+fi

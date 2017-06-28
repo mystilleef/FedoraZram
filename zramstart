@@ -21,18 +21,23 @@ last_cpu=$((num_cpus - 1))
 memtotal=$(grep MemTotal /proc/meminfo | awk ' { print $2 } ')
 mem_by_cpu=$(($memtotal/$num_cpus*${FACTOR}/100*1024))
 
-#modprobe -q zram num_devices=$num_cpus
-modprobe -av zram
+modprobe zram num_devices=$num_cpus
+
+function getKernelMajorVersion() {
+	head -c 1 /proc/sys/kernel/osrelease
+}
 
 for i in $(seq 0 $last_cpu); do
-	n=$(cat /sys/class/zram-control/hot_add)
+	n=$i
+	if [ $(getKernelMajorVersion) -gt 3 ]; then
+		n=$(cat /sys/class/zram-control/hot_add)
+	fi
 	block=/sys/block/zram${n}
 
 	#enable lz4 if that supported
 	[ -f ${block}/comp_algorithm ] && grep -q ${COMP_ALGORITHM} ${block}/comp_algorithm && echo ${COMP_ALGORITHM} > ${block}/comp_algorithm
 	
 	echo $mem_by_cpu > ${block}/disksize
-	#echo ${max_comp_streams} > ${block}/max_comp_streams
 
 	mkswap /dev/zram$n
 	swapon -v -p 100 /dev/zram$n
