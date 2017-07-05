@@ -28,17 +28,18 @@ function getKernelMajorVersion() {
 }
 
 for i in $(seq 0 $last_cpu); do
-	n=$i
-	if [ $(getKernelMajorVersion) -gt 3 ]; then
-		n=$(cat /sys/class/zram-control/hot_add)
-	fi
-	block=/sys/block/zram${n}
+        n=$i
+        if [ $(getKernelMajorVersion) -gt 3 ]; then
+                n=$(cat /sys/class/zram-control/hot_add)
+        fi
+        block=/sys/block/zram${n}
 
-	#enable lz4 if that supported
-	[ -f ${block}/comp_algorithm ] && grep -q ${COMP_ALGORITHM} ${block}/comp_algorithm && echo ${COMP_ALGORITHM} > ${block}/comp_algorithm
-	
-	echo $mem_by_cpu > ${block}/disksize
+        if [ "$(cat ${block}/disksize)" -eq 0 ] ; then
+                [ -f ${block}/comp_algorithm ] && grep -q ${COMP_ALGORITHM} ${block}/comp_algorithm && echo ${COMP_ALGORITHM} > ${block}/comp_algorithm
 
-	mkswap /dev/zram$n
-	swapon -v -p 100 /dev/zram$n
+                echo $mem_by_cpu > ${block}/disksize
+                mkswap /dev/zram$n
+                swapon -v -p 100 /dev/zram$n
+        fi
 done
+
